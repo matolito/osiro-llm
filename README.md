@@ -28,18 +28,19 @@ osiro-llm/
     ```
     For other installation methods, see the [official `uv` documentation](https://astral.sh/docs/uv#installation).
 
-2.  **Create and activate a virtual environment:**
-
-    ```bash
-    uv venv
-    source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
-    ```
-
-3.  **Install dependencies:**
+2.  **Install dependencies:**
 
     ```bash
     uv sync
     ```
+
+
+3.  **Create and activate a virtual environment:**
+
+    ```bash
+    source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
+    ```
+
 
 4.  **Set your Google API Key:**
 
@@ -53,13 +54,7 @@ osiro-llm/
 
 The main entry point for running the model comparison is the Jupyter notebook located in the `notebooks` directory.
 
-1.  **Start Jupyter:**
-
-    ```bash
-    jupyter notebook
-    ```
-
-2.  **Open and run `notebooks/02_model_comparison.ipynb`:**
+1.  **Open and run `notebooks/02_model_comparison.ipynb`:**
 
     This notebook will:
     - Download the MovieLens 1M dataset.
