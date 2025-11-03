@@ -1,0 +1,15 @@
+# Environment variables
+.env
+.venv/
+
+# Data
+data/
+
+# Egg info
+osiro_llm.egg-info/
+
+# Uv Lock
+uv.lock
+
+# Python related
+__pycache__/
