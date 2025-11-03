@@ -25,20 +25,26 @@ class LLMZeroShotRecommender(BaseRecommender):
         # Get user's liked movies
         user_ratings = self.ratings_df[self.ratings_df["UserID"] == user_id]
         liked_movies = user_ratings[user_ratings["Rating"] >= self.rating_threshold]
-        liked_movie_titles = [self.movie_id_to_title[mid] for mid in liked_movies["MovieID"]]
+        liked_movie_titles = [
+            self.movie_id_to_title[mid] for mid in liked_movies["MovieID"]
+        ]
 
         # Get candidate movies
         user_rated_movies = set(user_ratings["MovieID"])
-        candidate_movie_ids = [mid for mid in all_movie_ids if mid not in user_rated_movies]
-        candidate_movie_titles = [self.movie_id_to_title[mid] for mid in candidate_movie_ids]
-        
+        candidate_movie_ids = [
+            mid for mid in all_movie_ids if mid not in user_rated_movies
+        ]
+        candidate_movie_titles = [
+            self.movie_id_to_title[mid] for mid in candidate_movie_ids
+        ]
+
         # For simplicity, let's limit the number of candidates sent to the LLM
         candidate_movie_titles = candidate_movie_titles[:100]
 
         prompt = ZERO_SHOT_PROMPT.format(
             liked_movies="|".join(liked_movie_titles),
             candidate_movies="|".join(candidate_movie_titles),
-            n=n
+            n=n,
         )
 
         response = self.llm_wrapper.generate_content(prompt)
@@ -46,6 +52,10 @@ class LLMZeroShotRecommender(BaseRecommender):
 
         # Convert titles back to MovieIDs
         title_to_movie_id = {v: k for k, v in self.movie_id_to_title.items()}
-        recommended_ids = [title_to_movie_id[title] for title in recommended_titles if title in title_to_movie_id]
+        recommended_ids = [
+            title_to_movie_id[title]
+            for title in recommended_titles
+            if title in title_to_movie_id
+        ]
 
         return recommended_ids[:n]

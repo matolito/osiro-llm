@@ -6,7 +6,12 @@ from osiro_llm.llm.prompts import RERANKING_PROMPT
 
 
 class LLMReranker(BaseRecommender):
-    def __init__(self, base_recommender: BaseRecommender, llm_wrapper: GoogleLLMWrapper, rating_threshold=4):
+    def __init__(
+        self,
+        base_recommender: BaseRecommender,
+        llm_wrapper: GoogleLLMWrapper,
+        rating_threshold=4,
+    ):
         self.base_recommender = base_recommender
         self.llm_wrapper = llm_wrapper
         self.rating_threshold = rating_threshold
@@ -25,18 +30,26 @@ class LLMReranker(BaseRecommender):
             raise RuntimeError("The recommender has not been fitted yet.")
 
         # Get initial candidates from the base recommender
-        candidate_ids = self.base_recommender.recommend(user_id, n * 5, all_movie_ids) # Get more candidates to re-rank
-        candidate_titles = [self.movie_id_to_title[mid] for mid in candidate_ids if mid in self.movie_id_to_title]
+        candidate_ids = self.base_recommender.recommend(
+            user_id, n * 5, all_movie_ids
+        )  # Get more candidates to re-rank
+        candidate_titles = [
+            self.movie_id_to_title[mid]
+            for mid in candidate_ids
+            if mid in self.movie_id_to_title
+        ]
 
         # Get user's liked movies
         user_ratings = self.ratings_df[self.ratings_df["UserID"] == user_id]
         liked_movies = user_ratings[user_ratings["Rating"] >= self.rating_threshold]
-        liked_movie_titles = [self.movie_id_to_title[mid] for mid in liked_movies["MovieID"]]
+        liked_movie_titles = [
+            self.movie_id_to_title[mid] for mid in liked_movies["MovieID"]
+        ]
 
         prompt = RERANKING_PROMPT.format(
             liked_movies="|".join(liked_movie_titles),
             candidate_movies="|".join(candidate_titles),
-            n=n
+            n=n,
         )
 
         response = self.llm_wrapper.generate_content(prompt)
@@ -44,6 +57,10 @@ class LLMReranker(BaseRecommender):
 
         # Convert titles back to MovieIDs
         title_to_movie_id = {v: k for k, v in self.movie_id_to_title.items()}
-        reranked_ids = [title_to_movie_id[title] for title in reranked_titles if title in title_to_movie_id]
+        reranked_ids = [
+            title_to_movie_id[title]
+            for title in reranked_titles
+            if title in title_to_movie_id
+        ]
 
         return reranked_ids[:n]
