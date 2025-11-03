@@ -28,19 +28,18 @@ osiro-llm/
     ```
     For other installation methods, see the [official `uv` documentation](https://astral.sh/docs/uv#installation).
 
-2.  **Install dependencies:**
+2.  **Create and activate a virtual environment:**
 
     ```bash
-    uv sync
-    ```
-
-
-3.  **Create and activate a virtual environment:**
-
-    ```bash
+    uv venv
     source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
     ```
 
+3.  **Install dependencies:**
+
+    ```bash
+    uv pip sync
+    ```
 
 4.  **Set your Google API Key:**
 
@@ -49,6 +48,14 @@ osiro-llm/
     ```bash
     export GOOGLE_API_KEY='your_api_key_here'
     ```
+
+## Code Formatting
+
+This project uses the `black` code formatter to ensure a consistent code style. Before committing any changes, please format your code by running the following command from the root of the project:
+
+```bash
+black .
+```
 
 ## How to Run
 
