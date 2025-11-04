@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
-from osiro_llm.recommenders.baselines import BaseRecommender
+from osiro_llm.recommenders.base import BaseRecommender
 
 
 class UserCFRecommender(BaseRecommender):

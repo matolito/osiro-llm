@@ -25,7 +25,7 @@ class Evaluator:
             .to_dict()
         )
 
-        # [AÑADIDO] 2b. Create the seen items map (train items)
+        # 2b. Create the seen items map (train items)
         train_user_items = train_df.groupby("UserID")["MovieID"].apply(set).to_dict()
 
         # Get the list of users we need to evaluate (those with items in the test set).

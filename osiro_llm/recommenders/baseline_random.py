@@ -1,7 +1,7 @@
 import random
 import pandas as pd
 
-from osiro_llm.recommenders.baselines import BaseRecommender
+from osiro_llm.recommenders.base import BaseRecommender
 
 
 class RandomRecommender(BaseRecommender):
